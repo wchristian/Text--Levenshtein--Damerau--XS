@@ -139,31 +139,32 @@ CODE:
 
     for (i=0; i < lenSource; i++) {
       SV** elem = av_fetch(arraySource, i, 0);
-      int retval = (int)SvIV(*elem);
+      int retval;
+      *(SV **)&elem = (elem ? *elem : &PL_sv_undef);
+      retval = (int)SvIV((SV *)elem);
 
-      if (elem != NULL) {
-        arrSource[ i ] = retval;
-        lenSource2++;
+      arrSource[ i ] = retval;
+      lenSource2++;
 
-        /* checks for match */
-        if(i <= lenTarget)
-          if(arrSource[i] != arrTarget[i])
-            matchBool = 0;
-      }
+      /* checks for match */
+      if(i <= lenTarget)
+        if(arrSource[i] != arrTarget[i])
+          matchBool = 0;
     }
+
     for (j=0; j < lenTarget; j++) {
       SV** elem = av_fetch(arrayTarget, j, 0);
-      int retval = (int)SvIV(*elem);
+      int retval;
+      *(SV **)&elem = (elem ? *elem : &PL_sv_undef);
+      retval = (int)SvIV((SV *)elem);
 
-      if (elem != NULL) {
-        arrTarget[ j ] = retval;
-        lenTarget2++;
+      arrTarget[ j ] = retval;
+      lenTarget2++;
 
-        /* checks for match */
-        if(j <= lenSource)
-          if(arrSource[j] != arrTarget[j])
-            matchBool = 0;
-      }
+      /* checks for match */
+      if(j <= lenSource)
+        if(arrSource[j] != arrTarget[j])
+          matchBool = 0;
     }
 
     if(matchBool == 1)

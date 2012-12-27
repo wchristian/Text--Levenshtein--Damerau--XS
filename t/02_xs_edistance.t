@@ -1,8 +1,13 @@
 use strict;
 use warnings;
 use Test::More tests => 18;
-use Text::Levenshtein::Damerau::XS qw/xs_edistance/;
+use Text::Levenshtein::Damerau::XS qw/xs_edistance cxs_edistance/;
 
+my @a;
+$a[50] = 1;
+my @b;
+$b[50] = 1;
+cxs_edistance(\@a,\@b,0);
 
 is( xs_edistance('four','for'), 	1, 'test xs_edistance insertion');
 is( xs_edistance('four','four'), 	0, 'test xs_edistance matching');
