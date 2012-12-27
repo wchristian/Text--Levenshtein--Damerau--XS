@@ -171,17 +171,12 @@ CODE:
       unsigned int **a_scores;
       int md = (int)SvIV(maxDistance);
 
-      Newx(a_scores, lenSource2+2, unsigned int*);
+      a_scores = (unsigned int **) sv_grow(sv_newmortal(), sizeof(unsigned int **) * (lenSource2 + 2));
       for(i = 0; i < lenSource2+2; i++) {
-        Newx(a_scores[i], lenTarget2+2, unsigned int);
+        a_scores[i] = (unsigned int *) sv_grow(sv_newmortal(), sizeof(unsigned int *) * (lenTarget2 + 2));
       }
 
       RETVAL = scores(arrSource,arrTarget,lenSource2,lenTarget2,md,a_scores);
-
-      for(i = 0; i < lenSource2+2; i++) {
-        Safefree(a_scores[i]);
-      }
-      Safefree(a_scores);
     }
   }
   else {
