@@ -24,7 +24,7 @@ static item* push(int key,unsigned int value,item* curr){
   return head;
 }
 
-static item* dict_free(item* head){
+static void dict_free(item* head){
   item* iterator = head;
   while(iterator){
     item* temp = iterator;
